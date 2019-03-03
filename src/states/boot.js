@@ -8,9 +8,6 @@ class Boot extends Phaser.State {
     preload() {
         this.game.load.image('backStart', 'assets/backgroundSpace.jpg');
         this.game.load.image('style', 'assets/fonts/steelpp_font.png');
-        this.game.load.image('login', 'assets/button_login.png');
-        this.game.load.image('register', 'assets/button_register.png');
-
     }
 
     create() {
@@ -27,9 +24,6 @@ class Boot extends Phaser.State {
             this.game.scale.setSize();
         }
 
-        this.buttonLog = this.add.button(this.world.centerX - 150, this.world.centerY + 100, 'login', this.login);
-        this.buttonReg = this.add.button(this.world.centerX, this.world.centerY + 100, 'register', this.register);
-
         // add.retroFont(name of the font, char width, char height, chars used(arrangment of font set), chars per row, Xdistance, Ydistance)
         this.font = this.game.add.retroFont('style', 32, 32, Phaser.RetroFont.TEXT_SET2);
 
@@ -40,7 +34,7 @@ class Boot extends Phaser.State {
         this.txt.anchor.set(0.5);
 
         this.initGlobalVariables();
-        //this.game.state.start('preloader');
+        this.game.state.start('preloader');
 
     }
 
@@ -48,17 +42,10 @@ class Boot extends Phaser.State {
         this.font.text = "Space War - Battle Day";
     }
 
-    login() {
-        window.open('../../login.html', '_self')
-    }
-
-    register() {
-        window.open('../../register.html', '_self')
-    }
-
     initGlobalVariables() {
         this.game.global = {
-            score: 0
+            score: 0,
+            winLose: false
         };
     }
 

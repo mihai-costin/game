@@ -1,50 +1,88 @@
-class Menu extends Phaser.State {
+class Gameover extends Phaser.State {
 
-  constructor() {
-    super();
-  }
-
-  create() {
-    // add background image
-    this.background = this.game.add.sprite(0,0,'background');
-    this.background.height = this.game.world.height;
-    this.background.width = this.game.world.width;
-
-    // add intro text
-    this.gameoverText = this.add.text(this.game.world.centerX,this.game.world.centerY, "Score = "+this.game.global.score, {
-      font: '42px Arial', fill: '#ffffff', align: 'center'
-    });
-    this.gameoverText.anchor.set(0.5);
-
-    this.input.onDown.add(this.onInputDown, this);
-
-    // prevent accidental click-thru by not allowing state transition for a short time
-    this.canContinueToNextState = false;
-    this.game.time.events.add(Phaser.Timer.SECOND * 0.5, function(){ this.canContinueToNextState = true; }, this);
-
-    this.saveVarsToLocalStorage();
-    this.resetGlobalVariables();
-  }
-
-  saveVarsToLocalStorage() {
-    const max = localStorage.maxScore || 0; //default value of 0 is it does not exist
-    if (this.game.global.score > max) {
-      localStorage.maxScore = this.game.global.score;
+    constructor() {
+        super();
     }
-  }
 
-  resetGlobalVariables() {
-    this.game.global.score = 0;
-  }
+    create() {
+        // add background image
+        this.background = this.game.add.sprite(0, 0, 'backStart');
+        this.background.alpha = 0.3;
+        this.background.height = this.game.world.height;
+        this.background.width = this.game.world.width;
 
-  update() {}
+        if (!this.game.global.winLose) {
+            this.font = this.game.add.retroFont('style2', 31, 25, Phaser.RetroFont.TEXT_SET2, 10, 1, 0);
+            this.text = "Game Over";
+        } else {
+            this.font = this.game.add.retroFont('style', 32, 32, Phaser.RetroFont.TEXT_SET2);
+            this.text = "You Won"
+        }
 
-  onInputDown() {
-    if(this.canContinueToNextState){
-      this.game.state.start('menu');
+        // music
+        this.game.sound.stopAll();
+        this.game.sound.play('track2', 0.85, true);
+
+        // add intro text
+        this.txt = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 40, this.font);
+        this.txt.anchor.set(0.5);
+
+        this.gameoverText = this.add.text(this.game.world.centerX, this.game.world.centerY, "Levels Cleared = " + this.game.global.score, {
+            font: '42px sans-serif Arial',
+            fill: 'red',
+            align: 'center'
+        });
+        this.gameoverText.anchor.set(0.5);
+
+        // buttons
+        this.buttonGroup = this.game.add.group();
+
+        var button1 = this.game.add.button(250, this.game.world.centerY, 'play', this.playAgain, this, 0, 2, 1);
+
+        var button2 = this.game.add.button(450, this.game.world.centerY, 'exit', this.back, this, 0, 1);
+
+        this.buttonGroup.add(button1);
+        this.buttonGroup.add(button2);
+
+        this.buttonGroup.x += 55;
+
+        this.buttonGroup.onChildInputOver.add(function () {
+            this.game.sound.play('selNoise');
+        }, this);
+        this.buttonGroup.onChildInputDown.add(function () {
+            this.game.sound.play('selClick');
+        }, this);
+
+        this.saveVarsToLocalStorage();
+        this.resetGlobalVariables();
     }
-  }
+
+    saveVarsToLocalStorage() {
+        const max = localStorage.maxScore || 0; //default value of 0 is it does not exist
+        if (this.game.global.score > max) {
+            localStorage.maxScore = this.game.global.score;
+        }
+    }
+
+    resetGlobalVariables() {
+        this.game.global.winLose = false;
+    }
+
+    playAgain() {
+        this.game.sound.stopAll();
+        this.game.state.start('game');
+    }
+
+    back() {
+        this.game.sound.stopAll();
+        this.game.sound.play('track1', 0.85, true);
+        this.game.state.start('menu');
+    }
+
+    update() {
+        this.font.text = this.text;
+    }
 
 }
 
-export default Menu;
+export default Gameover;
