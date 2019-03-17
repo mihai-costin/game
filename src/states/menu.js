@@ -27,8 +27,6 @@ class Menu extends Phaser.State {
         this.buttonGroup.onChildInputDown.add(this.downSfx, this);
     }
 
-    update() {}
-
     downSfx() {
         this.game.sound.play('selClick');
     }
@@ -38,8 +36,7 @@ class Menu extends Phaser.State {
     }
 
     playGame() {
-        this.game.sound.stopAll();
-        this.game.state.start('game');
+        this.game.state.start('choose');
     }
 
     options() {

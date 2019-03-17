@@ -11,7 +11,7 @@ class Gameover extends Phaser.State {
         this.background.height = this.game.world.height;
         this.background.width = this.game.world.width;
 
-        if (!this.game.global.winLose) {
+        if (this.game.global.scorePlayer <= this.game.global.scoreEnemy) {
             this.font = this.game.add.retroFont('style2', 31, 25, Phaser.RetroFont.TEXT_SET2, 10, 1, 0);
             this.text = "Game Over";
         } else {
@@ -24,14 +24,15 @@ class Gameover extends Phaser.State {
         this.game.sound.play('track2', 0.85, true);
 
         // add intro text
-        this.txt = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 40, this.font);
+        this.txt = this.game.add.image(this.game.world.centerX, this.game.world.centerY - 160, this.font);
         this.txt.anchor.set(0.5);
 
-        this.gameoverText = this.add.text(this.game.world.centerX, this.game.world.centerY, "Levels Cleared = " + this.game.global.score, {
-            font: '42px sans-serif Arial',
-            fill: 'red',
-            align: 'center'
-        });
+        this.gameoverText = this.add.text(this.game.world.centerX, this.game.world.centerY, "Your Score = " + this.game.global.scorePlayer + "\n Enemy Score = " +
+            this.game.global.scoreEnemy, {
+                font: '42px sans-serif Arial',
+                fill: 'red',
+                align: 'center'
+            });
         this.gameoverText.anchor.set(0.5);
 
         // buttons
@@ -58,14 +59,23 @@ class Gameover extends Phaser.State {
     }
 
     saveVarsToLocalStorage() {
-        const max = localStorage.maxScore || 0; //default value of 0 is it does not exist
-        if (this.game.global.score > max) {
-            localStorage.maxScore = this.game.global.score;
+        var max = localStorage.maxScore || 0; //default value of 0 is it does not exist
+        if (this.game.global.scorePlayer > max) {
+            localStorage.maxScore = this.game.global.scorePlayer;
+            max = this.game.global.scorePlayer;
         }
+
+        this.maxText = this.add.text(this.game.world.centerX, this.game.world.centerY - 80, "High-Score = " + max, {
+            font: '42px sans-serif Arial',
+            fill: 'red',
+            align: 'center'
+        });
+        this.maxText.anchor.set(0.5);
     }
 
     resetGlobalVariables() {
-        this.game.global.winLose = false;
+        this.game.global.scorePlayer = 0;
+        this.game.global.scoreEnemy = 0;
     }
 
     playAgain() {

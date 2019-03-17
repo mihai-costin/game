@@ -44,7 +44,7 @@ class Preloader extends Phaser.State {
 
         //game music
         this.game.sound.play('track1', 0.85, true);
-        this.game.state.start('gameover');
+        this.game.state.start('menu');
     }
 
     loadResources() {
@@ -52,19 +52,24 @@ class Preloader extends Phaser.State {
         this.game.load.image('bgPlay', 'assets/bg_play.png');
         this.game.load.image('bullet', 'assets/bullet.png');
         this.game.load.image('bullet_red', 'assets/bullet_red.png');
+        this.game.load.image('aiNaive', 'assets/button_ai-naive.png');
+        this.game.load.image('aiDnn', 'assets/button_ai-dnn.png');
 
         // menu screen
         this.game.load.spritesheet('play', 'assets/spritesheets/menu_screen/play.png', 200, 200);
         this.game.load.spritesheet('option', 'assets/spritesheets/menu_screen/options.png', 200, 200);
         this.game.load.spritesheet('credit', 'assets/spritesheets/menu_screen/credits.png', 200, 200);
         this.game.load.spritesheet('exit', 'assets/spritesheets/menu_screen/exit.png', 200, 200);
+        this.game.load.spritesheet('click', 'assets/button_click-to-play.png');
 
         // characters & effects
         this.game.load.spritesheet('player', 'assets/spritesheets/player/player.png', 56, 56, 9);
-        this.game.load.spritesheet('enemy', 'assets/spritesheets/enemy/enemy.png', 59, 59, 9);
+        this.game.load.spritesheet('enemy', 'assets/spritesheets/enemy/enemy.png', 66, 66, 9);
         this.game.load.spritesheet('blueExpl', 'assets/spritesheets/blue_explosion/blue_explosion.png', 60, 60, 16);
         this.game.load.spritesheet('redExpl', 'assets/spritesheets/red_explosion/red_explosion.png', 60, 50, 16);
         this.game.load.image('style2', 'assets/fonts/knighthawks.png');
+        this.game.load.spritesheet('checkbox', 'assets/spritesheets/checkboxSprite.png', 50, 50, 2);
+        this.game.load.spritesheet('bomb', 'assets/spritesheets/spacebomb/spacebomb.png', 74, 74, 4);
 
         // audio
         this.game.load.audio('shot', ['assets/audio/NovaShot.mp3', 'assets/audio/NovaShot.ogg']);
@@ -73,6 +78,7 @@ class Preloader extends Phaser.State {
         this.game.load.audio('selClick', ['assets/audio/Menu Selection Click.wav', 'assets/audio/Menu Selection Click.ogg']);
         this.game.load.audio('track1', ['assets/audio/Ove Melaa - Dark Blue.mp3', 'assets/audio/Ove Melaa - Dark Blue.ogg']);
         this.game.load.audio('track2', ['assets/audio/Ove Melaa - High Stakes,Low Chances.mp3', 'assets/audio/Ove Melaa - High Stakes,Low Chances.ogg']);
+        this.game.load.audio('track3', ['assets/audio/Ove Melaa - Dark.mp3', 'assets/audio/Ove Melaa - Dark.ogg']);
 
         this.game.load.start();
     }

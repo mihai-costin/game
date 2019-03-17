@@ -1,5 +1,3 @@
-var box = document.getElementById("volMute");
-
 class Option extends Phaser.State {
 
     constructor() {
@@ -22,27 +20,28 @@ class Option extends Phaser.State {
             this.game.sound.play('selClick');
         }, this);
 
-        document.getElementsByClassName("volume")[0].style.display = "initial";
-
         this.style = {
             font: "50px sans-serif Arial",
             fill: "darkblue",
             align: "center"
         }
 
-        this.game.add.text(this.game.world.centerX - 175, this.game.world.centerY - 117, "Mute Sound:", this.style);
+        this.btn = this.game.add.button(this.game.world.centerX + 100, this.game.world.centerY - 125, 'checkbox', this.volume, this);
 
+        this.game.add.text(this.game.world.centerX - 175, this.game.world.centerY - 117, "Mute Sound:", this.style);
     }
 
-    update() {
-        if (!box.checked)
-            this.game.sound.mute = true;
-        else
+    volume() {
+        if (this.game.sound.mute) {
             this.game.sound.mute = false;
+            this.btn.setFrames(0);
+        } else {
+            this.game.sound.mute = true;
+            this.btn.setFrames(1);
+        }
     }
 
     back() {
-        document.getElementsByClassName("volume")[0].style.display = "none";
         this.game.state.start('menu');
     }
 }
