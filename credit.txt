@@ -1,0 +1,8 @@
+Menu Screen Background Image -- Aleksander Kowalczyk, Retrocade.net 
+Game Art -- Created By UnLuckY Studio, www.unluckystudio.com 
+UI checkbox -- created by Artus https://opengameart.org/content/basic-ui-widgets 
+Music -- 'Dark Blue',  'Dark', 'High Stake, Low Chances' written and produced by Ove Melaa (Omsofware@hotmail.com) 
+Menu Selection Click Sound -- created by NenadSimic https://opengameart.org/content/menu-selection-click
+Select Sound -- created by Boogle https://opengameart.org/content/select-like-sound  Explosion Sound -- created by rubberduck https://opengameart.org/content/50-cc0-sci-fi-sfx 
+Spaceship Fire -- created by kindland https://opengameart.org/content/spaceship-shoting 
+Button Player Vs Ai, Ai Vs Ai, Click To Play -- created with https://dabuttonfactory.com/
