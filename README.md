@@ -2,4 +2,6 @@
 
 Space war - Battle Day
 
-Using tensorflow.js to train the AI
+A game similar with Pong, but with spaceships and bombs
+
+Using tensorflow.js + keras to train the AI, learn to dodge bullets
