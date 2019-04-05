@@ -17,7 +17,7 @@ module.exports.register = function (req, res) {
         if (error) {
             console.log(error.message);
             console.log(users);
-            console.log(users.password);
+            //console.log(users.password);
             res.json({
                 status: false,
                 message: 'there are some error with query'
