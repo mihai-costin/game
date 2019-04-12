@@ -17,6 +17,7 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "@tensorflow/tfjs": "^1.0.4",
         "phaser-ce": "^2.9.3",
         "sqlite": "^3.0.2"
     },
