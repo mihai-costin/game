@@ -1,0 +1,14 @@
+body {
+    margin: 0;
+    padding: auto;
+    font-family: "Times New Roman", sans-serif;
+    font-size: 2em;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+}
+
+canvas {
+    display: block;
+    cursor: auto;
+}
