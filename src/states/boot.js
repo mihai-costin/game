@@ -4,7 +4,6 @@ class Boot extends Phaser.State {
         super();
     }
 
-    // login & register button created with https://dabuttonfactory.com/
     preload() {
         this.game.load.image('backStart', 'assets/backgroundSpace.png');
         this.game.load.image('style', 'assets/fonts/steelpp_font.png');

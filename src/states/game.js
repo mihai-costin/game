@@ -1,4 +1,4 @@
-import * as tf from '@tensorflow/tfjs';
+import * as tf from '@tensorflow/tfjs'; // version 1.0.4
 import Player from '../prefabs/player';
 import Enemy from '../prefabs/enemy';
 import Bomb from '../prefabs/bomb';
@@ -7,7 +7,7 @@ require("babel-polyfill");
 var ready, clickPlay,
     nextFirePl = 0,
     nextFireEn = 0;
-var files = ["Keras-10k/", "Keras-50k/", "Keras-100k/"];
+var files = ["http://localhost:9966/src/tfjsConverts/Keras-10k/model.json", "http://localhost:9966/src/tfjsConverts/Keras-50k/model.json", "http://localhost:9966/src/tfjsConverts/Keras-100k/model.json"];
 
 class Game extends Phaser.State {
 
@@ -37,7 +37,7 @@ class Game extends Phaser.State {
         this.blueAnim.onComplete.add(this.endGame, this);
         this.redAnim.onComplete.add(this.endGame, this);
 
-        //set up listeners and game
+        // set up listeners and game
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.physics.arcade.gravity.y = 0;
         this.game.world.bounds.setTo(0, 0, 1024, 768);
@@ -74,12 +74,11 @@ class Game extends Phaser.State {
         this.bombs = this.game.add.group();
 
         // generate a random number of bombs
-        // the number will be an integer bettween 10 and 20
+        // the number will be an integer bettween 20 and 30
         this.numBombs = this.game.rnd.integerInRange(20, 30);
 
         for (var i = 0; i < this.numBombs; i++) {
             var bomb = new Bomb(this.game, this.game.rnd.integerInRange(50, 990), this.game.rnd.integerInRange(100, 638));
-            //this.game.add.existing(bomb);
             bomb.animations.play('tick', 2, true);
 
             this.bombs.add(bomb);
@@ -90,23 +89,19 @@ class Game extends Phaser.State {
 
         // initialize the model
         // check if we want to predict or get data
-        // console.log(this.game.global.gameType)
         switch (this.game.global.gameType) {
-            case 0:
-                {
-                    this.initModel(files[0]);
-                    break;
-                }
-            case 1:
-                {
-                    this.initModel(files[1]);
-                    break;
-                }
-            case 2:
-                {
-                    this.initModel(files[2]);
-                    break;
-                }
+            case 0: {
+                this.initModel(files[0]);
+                break;
+            }
+            case 1: {
+                this.initModel(files[1]);
+                break;
+            }
+            case 2: {
+                this.initModel(files[2]);
+                break;
+            }
         }
     }
 
@@ -114,7 +109,11 @@ class Game extends Phaser.State {
 
         if (ready) {
             this.player.move();
-            this.enemy.moveEnemy(2000, 0);
+
+            // for vs Naive AI
+            // move randomly at each 2sec
+            if (this.game.global.gameType === 3)
+                this.enemy.moveEnemy(2000, 0);
 
             this.firePlayer();
             this.fireEnemy();
@@ -139,11 +138,9 @@ class Game extends Phaser.State {
 
     async initModel(file) {
         try {
-            let path = "http://localhost:9966/src/tfjsConverts/" + file + "model.json";
-            this.model = await tf.loadLayersModel(path);
+            this.model = await tf.loadLayersModel(file);
 
             console.log('Model Loaded Succesfully!');
-            //console.log(this.model);
         } catch (error) {
             console.log(error);
         }
@@ -186,7 +183,11 @@ class Game extends Phaser.State {
     dodgeBullet(bullet) {
         var move = this.predictMove(bullet);
 
-        // move 40px to left or right depending on pred
+        // avoid staying in corners
+        if (this.enemy.x === 33 || this.enemy.x === 991)
+            move = (-1) * move;
+
+        // move 25px to left or right depending on pred
         this.game.physics.arcade.moveToXY(this.enemy, this.enemy.x - (25 * move), 0, 400);
     }
 
@@ -225,7 +226,6 @@ class Game extends Phaser.State {
 
             // returns the flattened array of the tensor
             var nextMove = pred.dataSync();
-            //console.log(nextMove[0]);
 
             return ((nextMove[0] === 0) ? nextMove[0] - 1 : nextMove[0]);
         }

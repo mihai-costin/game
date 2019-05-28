@@ -3,9 +3,9 @@
  * we have 2 characters prefabs controller by the 'computer' 
  * no sound here
  * get data to learn to dodge bullets
- * we  simulate the dodge
- * input player.x, bulletEnemy.x]
- * output would be 2d [1, 0] or [0, 1] -- [1,0] dodge left, [0,1] dodge right
+ * we simulate the dodge
+ * input [player.x, bulletEnemy.x]
+ * output would be 2d [1] or [0] -- [1] dodge left, [0] dodge right
  * binary classification
  */
 

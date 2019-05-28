@@ -44,7 +44,6 @@ class Menu extends Phaser.State {
     }
 
     credits() {
-        //this.music.stop();
         this.game.sound.stopAll();
         this.game.state.start('credit');
     }
